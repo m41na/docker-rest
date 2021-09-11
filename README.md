@@ -87,3 +87,6 @@ Although it's not required, if you have time, we would love to see:
 
 * Automated tests for your solution,
 * A Dockerfile to run the API project in Docker, maybe expanding our [docker-compose.yml](/docker-compose.yml) with it.
+
+docker postgres client
+psql -h 172.18.0.2 -p 5432 -d userhours_dev -U userhours_user
