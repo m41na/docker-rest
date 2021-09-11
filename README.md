@@ -1,89 +1,71 @@
-# SpotHero Engineering Manager Take-Home Challenge
+# How to configure and run
 
-[![App Build](https://github.com/spothero/eng-mgr-take-home-challenge/actions/workflows/app-build.yaml/badge.svg)](https://github.com/spothero/eng-mgr-take-home-challenge/actions/workflows/app-build.yaml)
+## Assumptions
+1. Your system can execute a bash script
 
-This repo is a starter project for engineering manager candidates. It runs Postgres 13 in docker, has a database schema with two tables and seed data for both.
+## Required software for integration testing
+1. Docker engine
+2. Docker compose
+3. psql client
+4. jq (for parsing json content)
+5. jdk 11 (since the API is written using kotlin)
 
-## Installation
+To run the integration tests, simply execute the following (from the project's root folder)
 
-You need Docker to run this project. Please run `docker-compose up -d` to download the image and start the container, it will create the database, the tables and will add the seed data.
-We added a [Makefile](/Makefile) to the project for easier interaction. Run `make help` to see what commands are available for you.
-In case the `make` tool is not available on your operating system, open up the Makefile and copy/paste the commands from there.
+_./integration-test.sh_
 
-An easy way to look into the content of the database is by running `docker-compose exec db psql -U $(POSTGRES_USER) -d $(POSTGRES_DB)` (or executing the corresponding make command, `make docker.db-prompt`), that will provide the `psql` prompt, the command-line tool of PostgreSQL.
+## For local development in your IDE
+1. Add the following to your run configuration
+   1. VM arguments
+      1. -Dspring.profiles.active=local
+   2. Environment variables
+      1. DB_USER=userhours_user;
+      2. DB_PASS=Super-e3cret;
+2. To deploy the application using docker, run
+   1. docker-compose --env-file ./.env.dev up
 
-## Our Goals
+## Docker components
+There are three containers defined in the docker-compose file
+1. db - the postgres server
+2. rest - the REST application (port 3000)
+3. haproxy - the REST proxy (port 3001)
 
-We would like to assess your skills in the following areas:
+You can use either port 3000 and 3001 to interact with the REST api application
 
-* Docker
-* Git
-* GitHub
-* A programming language - current SpotHero Languages (Python, Kotlin, Swift, GoLang)
-* SQL
-* REST
-* APIs
+## From lack of specificity
+1. I included the haproxy container as a placeholder for concerns like TLS and load-balancing
+2. I did not attempt to use any particular method here to obscure plain-text secrets
 
-## Your task
+## Summary of available endpoints
+The REST api application ships with Swagger documentation which can be reached through
 
-We ask you to create an API project on top of this provided database schema. You can use any language, any framework you're confident with.
+_http://localhost:3000/v2/api-docs_
 
-The application has to expose two `GET` endpoints and one `POST`.
+The documentation UI is reachable through
 
-1. `GET` all active users
+_http://localhost:3000/swagger-ui.html_
 
-`curl http://localhost:3000/v1/users` should return a JSON like this (we only captured the first record, your solution should return 10 records):
+The high level summary of the endpoints is as shown below
 
-```json
-[
-  {
-    "id": 1,
-    "first_name": "Radchelle",
-    "last_name": "Haggerty",
-    "email": "RachelleTHaggerty@rhyta.com"
-  },
-  ...
-]
-```
+**RestJwtController**
+1. GET /v1/jwt/health
+2. POST /v1/jwt/authenticate
+3. POST /v1/jwt/validate
 
-2. `GET` all worked_hours for users
+**RestApiController**
+1. GET /v1/users
+2. GET /v1/users/{userId}/worked_hours
+3. POST /v1/users/{userId}/worked_hours
 
-The following curl request `curl http://localhost:3000/v1/users/1/worked_hours` should return 6 records in a format like this:
+## Accessing endpoints
+There are three mock users you can use to generate a JWT token (see UserJwtService)
+1. "user" with password "user_pass",
+2. "admin" with password "admin_pass",
+3. "guest" with password "guest_pass"
 
+The **RestApiController** endpoints require a JWT token. To generate one, use the _**/v1/jwt/authorize**_ endpoint
 
-```json
-[
-  {
-    "id": 1,
-    "date": "2021-01-01",
-    "hours": "3.9"
-  },
-  {
-    "id": 1,
-    "date": "2021-01-04",
-    "hours": "4.134"
-  },
-  ...
-]
-```
+Add the JWT token as a header parameter to your request
 
-3. `POST` a new worked_hour record
+--header 'Authorization: Bearer &lt;jwt&gt;
 
-By using the following curl request:
-
-```
-curl --header "Content-Type: application/json" \
-  --request POST \
-  --data '{"date": "2021-01-11","hours":5.24}' \
-  http://localhost:3000/v1/users/1/worked_hours
-```
-
-a new `worked_hour` record is inserted into the database.
-
-
-## Bonus Points
-
-Although it's not required, if you have time, we would love to see:
-
-* Automated tests for your solution,
-* A Dockerfile to run the API project in Docker, maybe expanding our [docker-compose.yml](/docker-compose.yml) with it.

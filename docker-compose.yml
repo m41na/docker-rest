@@ -6,9 +6,29 @@ services:
     image: postgres:13-alpine
     restart: always
     ports:
-      - 5432:5432
+      - "5432"
     volumes:
       - ./sql/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
       - ./sql/data.sql:/docker-entrypoint-initdb.d/2-data.sql
     env_file:
       - .env.dev
+
+  rest:
+    container_name: rest-api-app
+    image: rest-api-app:latest
+    restart: on-failure
+    ports:
+      - "3000:3000"
+    links:
+      - db:pghost
+    env_file:
+      - .env.dev
+
+  haproxy:
+    container_name: rest-haproxy
+    image: rest-haproxy
+    build: ./haproxy
+    ports:
+      - "3001:3001"
+    depends_on:
+      - rest
