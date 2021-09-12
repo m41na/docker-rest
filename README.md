@@ -88,5 +88,26 @@ Although it's not required, if you have time, we would love to see:
 * Automated tests for your solution,
 * A Dockerfile to run the API project in Docker, maybe expanding our [docker-compose.yml](/docker-compose.yml) with it.
 
-docker postgres client
-psql -h 172.18.0.2 -p 5432 -d userhours_dev -U userhours_user
+## discover postgres container's ip
+docker inspect take-home-db | grep "IPAddress"
+
+## connect to postgres container
+psql -h <pg_host_ip> -p 5432 -d userhours_dev -U userhours_user
+
+## docker-ize 'rest-api-app'
+```shell
+#!/usr/bin/env bash
+
+./gradlew clean build
+
+docker build -t rest-api-app .
+```
+
+## docker-ize 'rest-jwt-app'
+```shell
+#!/usr/bin/env bash
+
+./gradlew clean build
+
+docker build -t rest-jwt-app .
+```

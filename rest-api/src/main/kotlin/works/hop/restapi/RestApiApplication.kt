@@ -3,12 +3,14 @@ package works.hop.restapi
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.cloud.openfeign.EnableFeignClients
 
 @SpringBootApplication
+@EnableFeignClients
 class RestApiApplication : CommandLineRunner {
 
     override fun run(vararg args: String?) {
-        println("Application has started successfully")
+        println("REST API application has started successfully")
     }
 }
 
