@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-./gradlew --info clean build
+./gradlew clean build
 
 docker build -t rest-api-app .
 

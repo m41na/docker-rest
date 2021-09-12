@@ -80,7 +80,6 @@ curl --header "Content-Type: application/json" \
 
 a new `worked_hour` record is inserted into the database.
 
-
 ## Bonus Points
 
 Although it's not required, if you have time, we would love to see:

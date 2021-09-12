@@ -16,6 +16,7 @@ repositories {
 }
 
 extra["springCloudVersion"] = "2020.0.3"
+extra["testcontainersVersion"] = "1.16.0"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
@@ -37,11 +38,18 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.4.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.4.2")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
+
+    testImplementation("org.flywaydb:flyway-core:7.15.0")
+//    testImplementation("io.zonky.test:embedded-postgres:1.3.1")
+//    testImplementation("io.zonky.test:embedded-database-spring-test:2.1.0")
+    testImplementation("org.testcontainers:postgresql:1.15.0")
+    testImplementation("org.testcontainers:junit-jupiter:1.15.0")
 }
 
 dependencyManagement {
     imports {
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+        mavenBom("org.testcontainers:testcontainers-bom:${property("testcontainersVersion")}")
     }
 }
 
