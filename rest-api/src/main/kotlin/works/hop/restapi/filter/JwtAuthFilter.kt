@@ -40,7 +40,7 @@ class JwtAuthFilter(@Autowired val jwtAuthClient: JwtAuthClient) :
                         log.error("Token validation failed")
                         response.status = 403
                         val out = response.writer
-                        out.write("Unauthorized")
+                        out.write("Unauthorized - Token validation failed")
                     }
                 }
             } catch (e: FeignException) {

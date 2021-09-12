@@ -3,18 +3,19 @@ package works.hop.restapi.service
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.TestPropertySource
+import org.springframework.test.context.junit.jupiter.SpringExtension
+import works.hop.restapi.config.EnableTestConfigurations
 import works.hop.restapi.model.AppResult
 import works.hop.restapi.model.Hours
 import works.hop.restapi.model.User
 import java.time.LocalDate
 
-@SpringBootTest
-@TestPropertySource(locations = ["/application-test.properties"])
-internal class ApiServiceTest(@Autowired @Qualifier("testApiService") val service: IApiService, @Autowired val localDate: LocalDate) {
+@ExtendWith(SpringExtension::class)
+@EnableTestConfigurations
+internal class ApiServiceTest(@Autowired @Qualifier("testApiService") val service: IApiService) {
 
     @Test
     fun retrieveAllActiveUsers() {
@@ -32,7 +33,7 @@ internal class ApiServiceTest(@Autowired @Qualifier("testApiService") val servic
 
     @Test
     fun saveHoursWorked() {
-        val hours = Hours(10L, localDate, 10.0F)
+        val hours = Hours(10L, LocalDate.now(), 10.0F)
         val status: AppResult<Int>  = service.saveHoursWorked(hours)
         assertEquals(0, status.data)
     }
