@@ -8,8 +8,8 @@ function await_running_state {
     local container_name="$1"
     echo "awaiting container to be in a running state"
     while (( --attempts >= 0 )); do
-      sleep 1
-      if [ "$(docker container inspect -f '{{.State.Status}}' $container_name )" == "running" ]; then
+      sleep 2
+      if [ "$(docker container inspect -f '{{.State.Status}}' "$container_name" )" == "running" ]; then
         echo "$container_name container is running"
         break
       fi
@@ -34,7 +34,7 @@ function retrieve_auth_token {
              }')"
 
     if [[ -z $tokenResponse ]]; then
-      sleep 1
+      sleep 2
       echo "token is not available. attempt #$attempts"
       continue;
     else
@@ -55,7 +55,7 @@ function validate_auth_token {
              --data-raw "$1")
 
     if [[ -z $validateResponse ]]; then
-      sleep 1
+      sleep 2
       continue
     else
       valid=$(echo "$validateResponse" | jq '.valid')
@@ -73,7 +73,7 @@ function hours_worked {
     result=$(curl --location --request GET 'http://localhost:3000/v1/users/1/worked_hours' --header "${auth_header}")
 
     if [[ -z $result ]]; then
-      sleep 1
+      sleep 2
       continue
     else
       echo "$result"
@@ -90,7 +90,7 @@ function all_users {
     result=$(curl --location --request GET 'http://localhost:3000/v1/users' --header "${auth_header}")
 
     if [[ -z $result ]]; then
-      sleep 1
+      sleep 2
       continue
     else
       echo "$result"
@@ -110,7 +110,7 @@ function updated_hours {
               --data-raw '{"date": "2021-01-11","hours":5.24}')
 
     if [[ -z $result ]]; then
-      sleep 1
+      sleep 2
       continue
     else
       echo "$result"
@@ -151,8 +151,8 @@ echo "connect to pg container and execute initialization script"
 pg_host_ip="$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $pg_container_name)"
 echo "ph host is: $pg_host_ip"
 
-psql -h $pg_host_ip -p 5432 -d userhours_dev -U userhours_user -f sql/schema.sql
-psql -h $pg_host_ip -p 5432 -d userhours_dev -U userhours_user -f sql/data.sql
+psql -h "$pg_host_ip" -p 5432 -d userhours_dev -U userhours_user -f sql/schema.sql
+psql -h "$pg_host_ip" -p 5432 -d userhours_dev -U userhours_user -f sql/data.sql
 
 echo "database primed and ready"
 
@@ -188,7 +188,6 @@ if [[ $valid != true ]]; then
   echo "token is not valid"
   exit 1
 fi
-echo "token is valid: $valid"
 
 echo
 echo "checking hours worked"

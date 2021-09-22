@@ -30,6 +30,8 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
     implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer")
 
+    implementation("org.springframework.cloud:spring-cloud-starter-vault-config")
+
     runtimeOnly("org.postgresql:postgresql")
     implementation("com.googlecode.jmapper-framework:jmapper-core:1.6.0.1")
 

@@ -110,3 +110,25 @@ docker build -t rest-api-app .
 
 docker build -t rest-jwt-app .
 ```
+
+## Running application
+Set VM options: -Dspring.profiles.active=test
+Set ENV values: DB_USER=userhours_user;DB_PASS=Super-e3cret
+
+## Bring up database
+docker-compose -f docker-compose.yml up db
+
+##Extract db container IP
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' take-home-db
+
+## Use IP above in application-local.properties
+
+## start vault server (dev)
+vault server -dev
+# or
+docker run -p 8200:8200 secrets-vault
+
+## Set vault token in properties file
+Root Token: s.oWBRvmiqE8iiaJSjEr5Z03S1
+
+

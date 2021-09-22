@@ -11,7 +11,6 @@ import works.hop.restapi.entity.UserEntity
 import works.hop.restapi.model.Hours
 import works.hop.restapi.model.User
 
-
 @Configuration
 class MapperConfig {
 

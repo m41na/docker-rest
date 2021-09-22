@@ -3,6 +3,8 @@ package works.hop.restapi.controller
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.client.RestTemplate
+import org.springframework.web.client.getForEntity
 import works.hop.restapi.model.AppResult
 import works.hop.restapi.model.Hours
 import works.hop.restapi.model.User

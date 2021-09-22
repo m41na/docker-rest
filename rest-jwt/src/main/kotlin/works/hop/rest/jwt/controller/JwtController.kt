@@ -1,5 +1,6 @@
 package works.hop.rest.jwt.controller
 
+import io.swagger.annotations.ApiOperation
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -12,18 +13,28 @@ import works.hop.rest.jwt.service.UserJwtService
 
 
 @RestController
-@RequestMapping("v1/jwt")
+@RequestMapping("/v1/jwt")
 class JwtController(
     @Autowired val authenticationManager: AuthenticationManager,
     @Autowired val userJwtService: UserJwtService
 ) {
 
     @GetMapping("/health")
-    fun healthStatus(): ResponseEntity<String>{
+    @ApiOperation(
+        value = "Return the status if the application is running",
+        notes = "Any other response besides a 200 OK should be considered as a failure response",
+        response = String::class
+    )
+    fun healthStatus(): ResponseEntity<String> {
         return ResponseEntity.status(200).body("Looking good")
     }
 
     @PostMapping("/authenticate", consumes = [MediaType.APPLICATION_JSON_VALUE])
+    @ApiOperation(
+        value = "Validate credentials and generate a corresponding auth token",
+        notes = "This does not require and authorization token in the Headers",
+        response = String::class
+    )
     fun authenticate(@RequestBody authRequest: AuthRequest): ResponseEntity<AuthResponse> {
         return try {
             authenticationManager.authenticate(
@@ -40,11 +51,16 @@ class JwtController(
         }
     }
 
+    @ApiOperation(
+        value = "Accept a string token and validate based on whether the subject exists and whether the token is expired",
+        notes = "This does not require and authorization token in the Headers",
+        response = Boolean::class
+    )
     @PostMapping("/validate")
-    fun validate(@RequestBody token: String) : ResponseEntity<Map<String, Any>>{
-        if(userJwtService.validateToken(token)) {
+    fun validate(@RequestBody token: String): ResponseEntity<Map<String, Any>> {
+        if (userJwtService.validateToken(token)) {
             return ResponseEntity.status(200).body(mapOf<String, Any>("valid" to true))
         }
-        return  ResponseEntity.status(403).body(mapOf<String, Any>("valid" to false));
+        return ResponseEntity.status(403).body(mapOf<String, Any>("valid" to false))
     }
 }
