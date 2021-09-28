@@ -134,17 +134,3 @@ docker-compose -f docker-compose.yml up db
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' take-home-db
 
 ## Use IP above in application-local.properties
-
-## start vault server (dev)
-
-vault server -dev
-
-# or
-
-docker run -p 8200:8200 secrets-vault
-
-## Set vault token in properties file
-
-Root Token: s.oWBRvmiqE8iiaJSjEr5Z03S1
-
-

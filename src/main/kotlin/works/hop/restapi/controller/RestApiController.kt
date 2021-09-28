@@ -1,8 +1,6 @@
 package works.hop.restapi.controller
 
-import io.swagger.annotations.ApiOperation
-import io.swagger.annotations.ApiResponse
-import io.swagger.annotations.ApiResponses
+import io.swagger.annotations.*
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -31,6 +29,7 @@ class RestApiController(val apiService: ApiService, val hoursValidator: RequestV
             ApiResponse(code = 500, message = "Failed to retrieve users list")
         ]
     )
+    @ApiImplicitParam(name = "Authorization", type = "string", paramType = "Header", value = "JWT Authorization payload", required = true)
     @GetMapping
     fun retrieveAllActiveUsers(): ResponseEntity<AppResult<List<User>>> {
         val result = apiService.retrieveAllActiveUsers()
@@ -51,6 +50,7 @@ class RestApiController(val apiService: ApiService, val hoursValidator: RequestV
             ApiResponse(code = 500, message = "Failed to retrieve hours worked")
         ]
     )
+    @ApiImplicitParam(name = "Authorization", type = "string", paramType = "Header", value = "JWT Authorization payload", required = true)
     @GetMapping("/{userId}/worked_hours")
     fun retrieveHoursWorkedByUser(@PathVariable @Positive(message = "A valid user id is required") userId: Long): ResponseEntity<AppResult<List<Hours>>> {
         val result = apiService.retrieveHoursWorkedByUser(userId)
@@ -71,6 +71,7 @@ class RestApiController(val apiService: ApiService, val hoursValidator: RequestV
             ApiResponse(code = 500, message = "Failed to update hours worked")
         ]
     )
+    @ApiImplicitParam(name = "Authorization", type = "string", paramType = "Header", value = "JWT Authorization payload", required = true)
     @PostMapping(path = ["/{userId}/worked_hours"], consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun saveHoursWorked(
         @PathVariable @Positive(message = "A valid user id is required") userId: Long,

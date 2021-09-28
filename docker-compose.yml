@@ -23,3 +23,12 @@ services:
       - db:pghost
     env_file:
       - .env.dev
+
+  haproxy:
+    container_name: rest-haproxy
+    image: rest-haproxy
+    build: ./haproxy
+    ports:
+      - "3001:3001"
+    depends_on:
+      - rest

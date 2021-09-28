@@ -1,5 +1,6 @@
 package works.hop.restapi.controller
 
+import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiOperation
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
@@ -27,6 +28,7 @@ class RestJwtController(
         notes = "Any other response besides a 200 OK should be considered as a failure response",
         response = String::class
     )
+    @ApiImplicitParam(name = "Authorization", type = "string", paramType = "Header", value = "JWT Authorization payload", required = true)
     fun healthStatus(): ResponseEntity<String> {
         return ResponseEntity.status(200).body("Looking good")
     }

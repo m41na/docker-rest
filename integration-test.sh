@@ -155,12 +155,19 @@ psql -h "$pg_host_ip" -p 5432 -d userhours_dev -U userhours_user -f sql/data.sql
 
 echo "database primed and ready"
 
+working_dir=$(pwd)
+echo "creating docker image for rest haproxy"
+cd ./haproxy || return
+./dockerize.sh
+cd "$working_dir" || exit
+
 echo "creating docker image for rest api app"
 ./dockerize.sh
 
-echo "starting rest api app container"
-docker-compose --env-file ./.env.dev up -d rest
+echo "starting rest api app and haproxy container"
+docker-compose --env-file ./.env.dev up -d rest haproxy
 await_running_state rest-api-app
+await_running_state rest-haproxy
 
 echo
 echo "retrieve auth token"
@@ -185,6 +192,9 @@ if [[ -z $hoursWorked ]]; then
   exit 1
 fi
 
+echo
+echo "$hoursWorked" | jq .data
+
 size=$(echo "$hoursWorked" | jq '.data | length')
 
 #assert expected value
@@ -199,6 +209,9 @@ if [[ -z $allUsers ]]; then
   exit 1
 fi
 
+echo
+echo "$allUsers" | jq .data
+
 size=$(echo "$allUsers" | jq '.data | length')
 
 #assert expected value
@@ -212,6 +225,9 @@ if [[ -z $updateHours ]]; then
   echo "user hours update result is not available"
   exit 1
 fi
+
+echo
+echo "$updateHours" | jq .data
 
 status=$(echo "$updateHours" | jq '.data')
 
