@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping
 
 data class ValidateResponse(val valid: Boolean)
 
-@FeignClient(value = "jwt-auth-client", url = "\${jwt.auth.client.url}" )
+@FeignClient(value = "jwt-auth-client", url = "\${jwt.auth.client.url}")
 interface JwtAuthClient {
 
     @Headers("Authorization: Bearer {access_token}")

@@ -28,7 +28,8 @@ class JwtConfiguration(
         "/configuration/**",
         "/swagger-resources/**",
         "/swagger-ui.html",
-        "/webjars/**",)
+        "/webjars/**",
+    )
     val permittedList = arrayOf(
         // Controller
         "/v1/jwt/validate",

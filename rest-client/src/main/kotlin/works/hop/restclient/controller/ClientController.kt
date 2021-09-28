@@ -20,7 +20,10 @@ class ClientController(val restTemplate: RestTemplate) {
     fun checkJwtServerStatus(): ResponseEntity<String> {
         //Set the headers you need send
         val headers = HttpHeaders()
-        headers.set("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1c2VyLWp3dC1zZXJ2aWNlIiwic3ViIjoidXNlciIsImlhdCI6MTYzMjM1MTg5MCwiZXhwIjoxNjMyMzU5MDkwfQ.IAKoAQFFBCkU3vmhlxUSJs3vXoqMYulK8IaFn2EYJY0")
+        headers.set(
+            "Authorization",
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1c2VyLWp3dC1zZXJ2aWNlIiwic3ViIjoidXNlciIsImlhdCI6MTYzMjM1MTg5MCwiZXhwIjoxNjMyMzU5MDkwfQ.IAKoAQFFBCkU3vmhlxUSJs3vXoqMYulK8IaFn2EYJY0"
+        )
 
         //Create a new HttpEntity
         val entity: HttpEntity<String> = HttpEntity<String>(headers)

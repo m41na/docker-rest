@@ -4,6 +4,7 @@ import feign.FeignException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 import works.hop.restapi.clients.JwtAuthClient
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 @Component
+@ConditionalOnProperty("jwt.token.required", havingValue = "true")
 class JwtAuthFilter(@Autowired val jwtAuthClient: JwtAuthClient) :
     OncePerRequestFilter() {
 

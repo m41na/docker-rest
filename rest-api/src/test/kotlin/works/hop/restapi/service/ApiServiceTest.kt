@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import works.hop.restapi.config.EnableTestConfigurations
+import works.hop.restapi.annotation.EnableTestConfigurations
 import works.hop.restapi.model.AppResult
 import works.hop.restapi.model.Hours
 import works.hop.restapi.model.User
@@ -34,7 +34,7 @@ internal class ApiServiceTest(@Autowired @Qualifier("testApiService") val servic
     @Test
     fun saveHoursWorked() {
         val hours = Hours(10L, LocalDate.now(), 10.0F)
-        val status: AppResult<Int>  = service.saveHoursWorked(hours)
+        val status: AppResult<Int> = service.saveHoursWorked(hours)
         assertEquals(0, status.data)
     }
 }

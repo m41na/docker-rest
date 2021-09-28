@@ -12,6 +12,6 @@ data class HoursEntity(
     val date: LocalDate,
     val hours: Float,
     @Column("created_at") val createdAt: LocalDateTime?
-){
-    constructor(): this(0, LocalDate.now(), 0.0F, LocalDateTime.now())
+) {
+    constructor() : this(0, LocalDate.now(), 0.0F, LocalDateTime.now())
 }

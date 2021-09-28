@@ -1,4 +1,4 @@
-package works.hop.rest.jwt.config
+package works.hop.restapi.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -35,8 +35,8 @@ class SwagConfig : WebMvcConfigurer {
     }
 
     private fun apiInfo(): ApiInfo? {
-        return ApiInfoBuilder().title("Rest JWT API")
-            .description("Rest JWT API reference")
+        return ApiInfoBuilder().title("Rest User API")
+            .description("Rest User API reference")
             .termsOfServiceUrl("https://www.practicaldime.org")
             .contact(Contact("Zes", "zes", "zes.ty@aol.com")).license("MIT License")
             .licenseUrl("practicaldime@aol.com/license").version("1.0").build()

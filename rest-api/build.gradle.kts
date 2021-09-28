@@ -35,6 +35,9 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     implementation("com.googlecode.jmapper-framework:jmapper-core:1.6.0.1")
 
+    implementation("io.springfox:springfox-swagger2:2.9.2")
+    implementation("io.springfox:springfox-swagger-ui:2.9.2")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.4.2")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.4.2")
@@ -42,16 +45,12 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test")
 
     testImplementation("org.flywaydb:flyway-core:7.15.0")
-//    testImplementation("io.zonky.test:embedded-postgres:1.3.1")
-//    testImplementation("io.zonky.test:embedded-database-spring-test:2.1.0")
-    testImplementation("org.testcontainers:postgresql:1.15.0")
-    testImplementation("org.testcontainers:junit-jupiter:1.15.0")
+    testImplementation("io.zonky.test:embedded-postgres:1.3.1")
 }
 
 dependencyManagement {
     imports {
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
-        mavenBom("org.testcontainers:testcontainers-bom:${property("testcontainersVersion")}")
     }
 }
 

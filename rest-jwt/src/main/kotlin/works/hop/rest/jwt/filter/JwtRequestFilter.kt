@@ -25,7 +25,7 @@ class JwtRequestFilter(@Autowired val userJwtService: UserJwtService) : OncePerR
         val authHeader = request.getHeader(authHeaderName)
         if (authHeader?.startsWith(bearer) == true) {
             val token = authHeader.substring(bearer.length)
-            if(userJwtService.validateToken(token)) {
+            if (userJwtService.validateToken(token)) {
                 val username = userJwtService.extractUsername(token)
 
                 if (SecurityContextHolder.getContext().authentication == null) {

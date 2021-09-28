@@ -65,7 +65,8 @@ class UserJwtService : UserDetailsService {
         return extractClaims(token).expiration
     }
 
-    fun extractClaims(token: String) : Claims {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).body //don't use parseClaimsJwt here :-)
+    fun extractClaims(token: String): Claims {
+        return Jwts.parserBuilder().setSigningKey(key).build()
+            .parseClaimsJws(token).body //don't use parseClaimsJwt here :-)
     }
 }

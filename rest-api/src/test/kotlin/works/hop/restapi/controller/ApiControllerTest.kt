@@ -6,13 +6,13 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import works.hop.restapi.config.EnableTestConfigurations
+import works.hop.restapi.annotation.EnableTestConfigurations
 import works.hop.restapi.model.Hours
 import java.time.LocalDate
 
 @ExtendWith(SpringExtension::class)
 @EnableTestConfigurations
-internal class ApiControllerTest (@Autowired val apiController: ApiController) {
+internal class ApiControllerTest(@Autowired val apiController: ApiController) {
 
     @Test
     fun retrieveAllActiveUsers() {

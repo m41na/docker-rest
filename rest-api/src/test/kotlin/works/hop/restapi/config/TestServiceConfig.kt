@@ -18,7 +18,6 @@ import works.hop.restapi.repository.UsersRepository
 import works.hop.restapi.service.ApiService
 import works.hop.restapi.service.IApiService
 
-
 @Configuration
 class TestServiceConfig {
 
@@ -32,11 +31,12 @@ class TestServiceConfig {
     }
 
     @Bean
-    fun testApiService(@Autowired mockUsersRepository: UsersRepository,
-                       @Autowired mockHoursRepository: HoursRepository,
-                       @Autowired @Qualifier("UserEntityToUser") userMapper: JMapper<User, UserEntity>,
-                       @Autowired @Qualifier("HoursEntityToHours") hoursMapper: JMapper<Hours, HoursEntity>
-    ) : IApiService{
+    fun testApiService(
+        @Autowired mockUsersRepository: UsersRepository,
+        @Autowired mockHoursRepository: HoursRepository,
+        @Autowired @Qualifier("UserEntityToUser") userMapper: JMapper<User, UserEntity>,
+        @Autowired @Qualifier("HoursEntityToHours") hoursMapper: JMapper<Hours, HoursEntity>
+    ): IApiService {
         return ApiService(mockUsersRepository, mockHoursRepository, userMapper, hoursMapper)
     }
 }

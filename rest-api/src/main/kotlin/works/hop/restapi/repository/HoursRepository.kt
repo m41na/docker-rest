@@ -15,7 +15,9 @@ interface HoursRepository : CrudRepository<HoursEntity, Long> {
     fun hoursWorkedByUser(@Param("userId") userId: Long): List<HoursEntity>
 
     @Modifying
-    @Query("insert into worked_hours (user_id, date, hours) values (:user_id, :date, :hours) on conflict (user_id, date) do " +
-            "update set hours = :hours")
+    @Query(
+        "insert into worked_hours (user_id, date, hours) values (:user_id, :date, :hours) on conflict (user_id, date) do " +
+                "update set hours = :hours"
+    )
     fun updateHours(@Param("hours") hours: Float, @Param("date") date: LocalDate, @Param("user_id") userId: Long): Int
 }

@@ -11,9 +11,7 @@ import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import works.hop.restapi.config.TestDatabaseConfig
-import works.hop.restapi.entity.HoursEntity
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import works.hop.restapi.entity.UserEntity
 
 @DataJdbcTest
 @ExtendWith(SpringExtension::class)
@@ -21,20 +19,11 @@ import java.time.format.DateTimeFormatter
 @EnableAutoConfiguration
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test", "stage")
-internal class HoursRepositoryTest(@Autowired val hoursRepository: HoursRepository) {
+internal class UserRepositoryTest(@Autowired val usersRepository: UsersRepository) {
 
     @Test
     fun hoursWorkedByUser() {
-        val hours: List<HoursEntity> = hoursRepository.hoursWorkedByUser(1L)
-        assertEquals(6, hours.size)
-    }
-
-    @Test
-    fun updateHoursWorked() {
-        val userId = 1L
-        val hours = 20.12F
-        val date = LocalDate.parse("2021-01-01", DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-        val update = hoursRepository.updateHours(hours, date, userId)
-        assertEquals(1, update)
+        val users: List<UserEntity> = usersRepository.allActiveUsers()
+        assertEquals(users.size, 10)
     }
 }
