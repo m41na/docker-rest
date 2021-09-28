@@ -58,10 +58,10 @@ The high level summary of the endpoints is as shown below
 3. POST /v1/users/{userId}/worked_hours
 
 ## Accessing endpoints
-There are three users in the mock database you can use to generate a JWT token (see UserJwtService)
-"user" with password "user_pass",
-"admin" with password "admin_pass",
-"guest" with password "guest_pass"
+There are three mock users you can use to generate a JWT token (see UserJwtService)
+1. "user" with password "user_pass",
+2. "admin" with password "admin_pass",
+3. "guest" with password "guest_pass"
 
 The **RestApiController** endpoints require a JWT token. To generate one, use the _**/v1/jwt/authorize**_ endpoint
 
