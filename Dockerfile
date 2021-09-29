@@ -10,7 +10,7 @@ ENTRYPOINT java -jar \
     -Dspring.profiles.active=default \
     -DDB_PASS=${POSTGRES_PASSWORD} \
     -DDB_USER=${POSTGRES_USER} \
-    -DDB_HOST=${POSTGRES_HOST} \
+    -DDB_HOST=${POSTGRES_HOSTNAME} \
     -DDB_PORT=${POSTGRES_PORT} \
     -DDB_DATABASE=${POSTGRES_DB} \
     rest-api-app.jar
