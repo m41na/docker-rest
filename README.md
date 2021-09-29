@@ -67,5 +67,5 @@ The **RestApiController** endpoints require a JWT token. To generate one, use th
 
 Add the JWT token as a header parameter to your request
 
-**--header 'Authorization: Bearer <jwt>**
+--header 'Authorization: Bearer &lt;jwt&gt;
 
