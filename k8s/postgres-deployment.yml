@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: postgres
+  template:
+    metadata:
+      labels:
+        component: postgres
+    spec:
+      volumes:
+      - name: rest-api-storage
+        persistentVolumeClaim:
+          claimName: persistent-volume-claim
+      - name: pg-scripts-volume
+        configMap:
+          name: "pg-scripts-config"
+      containers:
+      - name: pghost
+        image: postgres:13-alpine
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+          - mountPath: /var/lib/postgres/data
+            name: rest-api-storage
+            subPath: postgres
+          - mountPath: /docker-entrypoint-initdb.d
+            name: pg-scripts-volume
+        env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: POSTGRES_PASSWORD
+                name: pg-password
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                key: POSTGRES_USER
+                name: pg-username
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                key: POSTGRES_DB
+                name: pg-database
+

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rest-api-deployment
+spec:
+  selector:
+    matchLabels:
+      component: rest-api-app
+  template:
+    metadata:
+      labels:
+        component: rest-api-app
+    spec:
+      containers:
+      - name: rest-api
+        image: m41na/rest-api-app
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3000
+        env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: POSTGRES_PASSWORD
+                name: pg-password
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                key: POSTGRES_USER
+                name: pg-username
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                key: POSTGRES_DB
+                name: pg-database
+          - name: POSTGRES_HOSTNAME
+            value: postgres-service
+          - name: POSTGRES_PORT
+            value: "5432"

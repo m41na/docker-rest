@@ -6,6 +6,8 @@ COPY build/libs/docker-rest-0.0.1-SNAPSHOT.jar ./rest-api-app.jar
 
 EXPOSE 3000
 
+USER 1001
+
 ENTRYPOINT java -jar \
     -Dspring.profiles.active=default \
     -DDB_PASS=${POSTGRES_PASSWORD} \
