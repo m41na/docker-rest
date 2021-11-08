@@ -1,3 +1,7 @@
+reference = library identifier: 'jenkins-library-demo@master', retriever: modernSCM(
+              [$class: 'GitSCMSource',
+               remote: 'https://github.com/m41na/jenkins-library-demo.git,
+               credentialsId: 'github-jenkins-token'])
 pipeline {
     agent any
 
@@ -6,10 +10,17 @@ pipeline {
     }
 
     stages {
+        stage ('Greet') {
+            steps {
+                sh "echo greetings"
+                greet reference
+            }
+        }
+
         stage ('Clean') {
             steps{
                 script {
-                    sh "gradle clean"
+                    sh "gradle clean build -x test"
                 }
             }
         }
