@@ -1,7 +1,10 @@
 reference = library identifier: 'jenkins-library-demo@master', retriever: modernSCM(
               [$class: 'GitSCMSource',
-               remote: 'https://github.com/m41na/jenkins-library-demo.git',
-               credentialsId: 'github-jenkins-token'])
+              remote: 'https://github.com/m41na/jenkins-library-demo.git',
+              credentialsId: 'github-jenkins-token'])
+
+// reference = library 'jenkins-library-demo@master'
+
 pipeline {
     agent any
 
@@ -12,16 +15,19 @@ pipeline {
     stages {
         stage ('Greet') {
             steps {
-                sh "echo greetings"
-                greet reference
+                script{
+                    sh "echo Greetings"
+                }
+                greet(reference, "from $WORKSPACE")
             }
         }
 
-        stage ('Clean') {
+        stage ('Library Build') {
             steps{
-                script {
-                    sh "gradle clean build -x test"
+                script{
+                    sh "echo Build using library"
                 }
+                build(reference, this, "clean build -x test")
             }
         }
     }
