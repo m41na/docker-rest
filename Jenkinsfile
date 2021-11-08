@@ -27,7 +27,7 @@ pipeline {
                 script{
                     sh "echo Build using library"
                 }
-                buildProject(reference, this, "clean build -x test")
+                buildProject("gradle", reference, this)
             }
         }
     }
