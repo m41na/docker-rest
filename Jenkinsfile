@@ -1,6 +1,6 @@
 reference = library identifier: 'jenkins-library-demo@master', retriever: modernSCM(
               [$class: 'GitSCMSource',
-               remote: 'https://github.com/m41na/jenkins-library-demo.git,
+               remote: 'https://github.com/m41na/jenkins-library-demo.git',
                credentialsId: 'github-jenkins-token'])
 pipeline {
     agent any
