@@ -27,7 +27,7 @@ pipeline {
                 script{
                     sh "echo Build using library"
                 }
-                build(reference, this, "clean build -x test")
+                buildProject(reference, this, "clean build -x test")
             }
         }
     }
